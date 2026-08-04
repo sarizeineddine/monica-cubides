@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+﻿import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, GraduationCap, TrendingUp, ShieldCheck, Landmark } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
@@ -61,31 +61,21 @@ export default function ServiceCarousel({ services }) {
     if (offset < -total / 2) normalizedOffset = offset + total;
 
     const isActive = normalizedOffset === 0;
-
-    if (isMobile) {
-      return {
-        transform: isActive
-          ? "translateX(0%) scale(1)"
-          : "translateX(" + (normalizedOffset > 0 ? "60%" : "-60%") + ") scale(0.85)",
-        opacity: isActive ? 1 : 0,
-        zIndex: isActive ? 10 : 0,
-        pointerEvents: isActive ? "auto" : "none",
-        filter: "none",
-      };
-    }
-
     const abs = Math.abs(normalizedOffset);
-    const spread = 62;
-    const depth = -190;
-    const tilt = -24;
-    const scaleInactive = 0.85;
+
+    const spread = isMobile ? 78 : 62;
+    const depth = isMobile ? -160 : -190;
+    const tilt = isMobile ? -30 : -24;
+    const scaleInactive = isMobile ? 0.78 : 0.85;
 
     return {
       transform: "translateX(" + (normalizedOffset * spread) + "%) translateZ(" + (isActive ? 0 : depth) + "px) rotateY(" + (normalizedOffset * tilt) + "deg) scale(" + (isActive ? 1 : scaleInactive) + ")",
       opacity: abs > 1 ? 0 : isActive ? 1 : 0.55,
       zIndex: isActive ? 10 : 5 - abs,
       pointerEvents: isActive ? "auto" : "none",
-      filter: isActive ? "none" : "blur(1.5px) saturate(0.85)",
+      filter: "none",
+      transformStyle: "preserve-3d",
+      willChange: "transform",
     };
   };
 
@@ -93,6 +83,7 @@ export default function ServiceCarousel({ services }) {
     <div className="relative">
       <div
         className="carousel-perspective relative mx-auto flex h-[380px] items-center justify-center sm:h-[500px]"
+        style={{ perspective: isMobile ? "900px" : "1400px", transformStyle: "preserve-3d" }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >

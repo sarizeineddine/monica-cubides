@@ -1,4 +1,4 @@
-import { useRef } from "react";
+﻿import { useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/utils/cn";
 
@@ -21,7 +21,7 @@ export default function MagneticButton({ children, href, onClick, variant = "sol
 
   const handleMouseLeave = () => { x.set(0); y.set(0); };
 
-  const base = "relative inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 focus-visible:outline-none";
+  const base = "relative inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-colors duration-300 focus-visible:outline-none";
 
   const styles = variant === "solid"
     ? "text-[color:var(--color-accent-ink)]"
@@ -36,13 +36,18 @@ export default function MagneticButton({ children, href, onClick, variant = "sol
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY, ...solidStyle }}
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.96 }}
-      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      className={cn(base, styles, className)}
+      style={{ x: springX, y: springY }}
+      className="inline-block"
     >
-      {children}
+      <motion.span
+        style={solidStyle}
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.96 }}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        className={cn(base, styles, className)}
+      >
+        {children}
+      </motion.span>
     </motion.span>
   );
 

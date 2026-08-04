@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 import MobileMenu from "./MobileMenu";
@@ -60,7 +60,7 @@ export default function Nav() {
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => handleNavClick("#contacto")}
-            className="hidden md:block text-[10px] font-bold uppercase tracking-[0.2em] px-5 py-2.5 rounded-full transition-transform hover:-translate-y-0.5"
+            className="hidden md:block text-[10px] font-bold uppercase tracking-[0.2em] px-5 py-2.5 rounded-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5"
             style={{ backgroundColor: "var(--color-accent)", color: "var(--color-accent-ink)" }}
           >
             {nav.cta}
