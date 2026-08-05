@@ -1,0 +1,138 @@
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { Quote } from "lucide-react";
+import { portfolioData } from "@/data/portfolioData";
+import { fadeUp, staggerContainer, viewportOnce } from "@/animations/motionPresets";
+import SectionHeader from "@/components/shared/SectionHeader";
+
+const MALE_HAIR = "shortFlat,shortRound,shortWaved,shortCurly,sides,theCaesar,theCaesarAndSidePart";
+const FEMALE_HAIR = "bob,bun,curly,curvy,longButNotTooLong,miaWallace,straight01,straight02,straightAndStrand,bigHair,fro,froBand";
+const SKIN_TONES = "d08b5b,ae5d29,edb98a,fd9841";
+
+function getAvatarUrl(t) {
+  const isFemale = t.gender === "female";
+  const topStyles = isFemale ? FEMALE_HAIR : MALE_HAIR;
+  const facialHair = isFemale ? "" : "&facialHairProbability=35&facialHairColor=724133";
+  const seed = encodeURIComponent(t.name);
+  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&top=${topStyles}&skinColor=${SKIN_TONES}${facialHair}&backgroundColor=transparent`;
+}
+
+function TestimonialCard({ t }) {
+  return (
+    <>
+      <Quote size={24} className="text-[color:var(--color-accent-dark)]" style={{ opacity: 0.5 }} />
+      <blockquote className="mt-4 flex-1 text-balance text-sm leading-relaxed text-[color:var(--color-ink)] sm:text-base">
+        {'\u201C'}{t.quote}{'\u201D'}
+      </blockquote>
+      <figcaption
+        className="mt-6 flex items-center gap-3 border-t pt-4"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <img
+          src={getAvatarUrl(t)}
+          alt={t.name}
+          loading="lazy"
+          className="h-11 w-11 shrink-0 rounded-full object-cover"
+          style={{ border: "2px solid var(--color-ink)", backgroundColor: "var(--color-accent-tint)" }}
+        />
+        <div>
+          <p className="text-sm font-semibold text-[color:var(--color-ink)]">{t.name}</p>
+          <p className="text-xs uppercase tracking-wide text-[color:var(--color-muted)]">{t.role}</p>
+        </div>
+      </figcaption>
+    </>
+  );
+}
+
+export default function Testimonials() {
+  const { testimonials } = portfolioData;
+  const scrollRef = useRef(null);
+  const itemRefs = useRef([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+            setActiveIndex(Number(entry.target.dataset.index));
+          }
+        });
+      },
+      { root: container, threshold: [0.6] }
+    );
+
+    itemRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToIndex = (index) => {
+    const el = itemRefs.current[index];
+    if (el && scrollRef.current) {
+      scrollRef.current.scrollTo({ left: el.offsetLeft - 20, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section id="testimonios" className="section-pad relative">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <SectionHeader
+          eyebrow={testimonials.eyebrow}
+          title={testimonials.title}
+          subtitle={testimonials.subtitle}
+          align="center"
+          className="mx-auto"
+        />
+
+        {/* Desktop / tablet grid */}
+        <motion.div
+          variants={staggerContainer(0.14)}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          className="mt-8 hidden sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+        >
+          {testimonials.items.map((t) => (
+            <motion.figure key={t.name} variants={fadeUp} className="testimonial-card flex h-full flex-col p-7">
+              <TestimonialCard t={t} />
+            </motion.figure>
+          ))}
+        </motion.div>
+
+        {/* Mobile carousel */}
+        <div className="mt-8 sm:hidden">
+          <div
+            ref={scrollRef}
+            className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 py-3"
+          >
+            {testimonials.items.map((t, i) => (
+              <figure
+                key={t.name}
+                ref={(el) => (itemRefs.current[i] = el)}
+                data-index={i}
+                className="testimonial-card flex w-[82%] shrink-0 snap-center flex-col p-5"
+              >
+                <TestimonialCard t={t} />
+              </figure>
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-center justify-center gap-2">
+            {testimonials.items.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Ver testimonio ${i + 1} de ${testimonials.items.length}`}
+                className={`carousel-dot ${i === activeIndex ? "carousel-dot-active" : ""}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

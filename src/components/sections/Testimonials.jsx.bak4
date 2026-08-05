@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
@@ -10,7 +11,6 @@ function getFallbackAvatar(name) {
 }
 
 function TestimonialCard({ t }) {
-  const src = t.photoUrl || getFallbackAvatar(t.name);
   return (
     <>
       <Quote size={24} className="text-[color:var(--color-accent-dark)]" style={{ opacity: 0.5 }} />
@@ -22,12 +22,12 @@ function TestimonialCard({ t }) {
         style={{ borderColor: "var(--color-border)" }}
       >
         <img
-          src={src}
+          src={t.photoUrl}
           alt={t.name}
           loading="lazy"
           onError={(e) => { e.currentTarget.src = getFallbackAvatar(t.name); }}
           className="h-11 w-11 shrink-0 rounded-full object-cover"
-          style={{ border: "2px solid var(--color-ink)", backgroundColor: "var(--color-accent-tint)" }}
+          style={{ border: "2px solid var(--color-ink)" }}
         />
         <div>
           <p className="text-sm font-semibold text-[color:var(--color-ink)]">{t.name}</p>
@@ -40,10 +40,38 @@ function TestimonialCard({ t }) {
 
 export default function Testimonials() {
   const { testimonials } = portfolioData;
-  const loopItems = [...testimonials.items, ...testimonials.items];
+  const scrollRef = useRef(null);
+  const itemRefs = useRef([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+            setActiveIndex(Number(entry.target.dataset.index));
+          }
+        });
+      },
+      { root: container, threshold: [0.6] }
+    );
+
+    itemRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToIndex = (index) => {
+    const el = itemRefs.current[index];
+    if (el && scrollRef.current) {
+      scrollRef.current.scrollTo({ left: el.offsetLeft - 20, behavior: "smooth" });
+    }
+  };
 
   return (
-    <section id="testimonios" className="section-pad relative overflow-hidden">
+    <section id="testimonios" className="section-pad relative">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <SectionHeader
           eyebrow={testimonials.eyebrow}
@@ -68,30 +96,37 @@ export default function Testimonials() {
           ))}
         </motion.div>
 
-        {/* Mobile marquee (auto-scrolling, no interaction needed) */}
-        <div className="mt-8 overflow-hidden py-3 sm:hidden" style={{ marginLeft: "-1.25rem", marginRight: "-1.25rem" }}>
-          <div className="marquee-track flex w-max gap-4 px-5">
-            {loopItems.map((t, i) => (
-              <figure key={i} className="testimonial-card flex w-[78vw] shrink-0 flex-col p-5">
+        {/* Mobile carousel */}
+        <div className="mt-8 sm:hidden">
+          <div
+            ref={scrollRef}
+            className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2"
+          >
+            {testimonials.items.map((t, i) => (
+              <figure
+                key={t.name}
+                ref={(el) => (itemRefs.current[i] = el)}
+                data-index={i}
+                className="testimonial-card flex w-[82%] shrink-0 snap-center flex-col p-5"
+              >
                 <TestimonialCard t={t} />
               </figure>
             ))}
           </div>
+
+          <div className="mt-5 flex items-center justify-center gap-2">
+            {testimonials.items.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Ver testimonio ${i + 1} de ${testimonials.items.length}`}
+                className={`carousel-dot ${i === activeIndex ? "carousel-dot-active" : ""}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
-
-      <style>{`
-        .marquee-track {
-          animation: marquee-scroll 32s linear infinite;
-        }
-        .marquee-track:hover {
-          animation-play-state: paused;
-        }
-        @keyframes marquee-scroll {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
-        }
-      `}</style>
     </section>
   );
 }

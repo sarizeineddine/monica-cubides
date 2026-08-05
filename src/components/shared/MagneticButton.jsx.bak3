@@ -31,7 +31,7 @@ export default function MagneticButton({
   const handleMouseLeave = () => { x.set(0); y.set(0); };
 
   const base =
-    "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-3 text-xs font-semibold tracking-wide transition-colors duration-300 focus-visible:outline-none sm:px-7 sm:py-3.5 sm:text-sm";
+    "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-colors duration-300 focus-visible:outline-none";
 
   const styles =
     variant === "solid"
@@ -56,7 +56,7 @@ export default function MagneticButton({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
-      className="inline-block w-full sm:w-auto"
+      className="inline-block"
     >
       <motion.span
         style={solidStyle}
@@ -78,7 +78,7 @@ export default function MagneticButton({
         rel={href.startsWith("http") ? "noreferrer" : undefined}
         aria-label={ariaLabel}
         onClick={onClick}
-        className="inline-block w-full sm:w-auto"
+        className="inline-block"
       >
         {content}
       </a>
@@ -86,7 +86,7 @@ export default function MagneticButton({
   }
 
   return (
-    <button type="button" aria-label={ariaLabel} onClick={onClick} className="inline-block w-full sm:w-auto">
+    <button type="button" aria-label={ariaLabel} onClick={onClick} className="inline-block">
       {content}
     </button>
   );

@@ -1,0 +1,67 @@
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { portfolioData } from "@/data/portfolioData";
+import { fadeUp, staggerContainer, viewportOnce } from "@/animations/motionPresets";
+import MagneticButton from "@/components/shared/MagneticButton";
+
+export default function FinalCTA() {
+  const { finalCta } = portfolioData;
+
+  return (
+    <section id="ultimo-llamado" className="relative overflow-hidden px-5 sm:px-8 lg:px-10">
+      <div
+        className="section-pad relative mx-auto max-w-6xl overflow-hidden rounded-[28px] text-center sm:rounded-[36px]"
+        style={{ backgroundColor: "var(--color-ink)" }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.08]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(3,199,63,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(3,199,63,0.6) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+        <motion.div
+          variants={staggerContainer(0.14)}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          className="relative mx-auto max-w-2xl px-6"
+        >
+          <motion.span
+            variants={fadeUp}
+            className="eyebrow-pill mb-5"
+            style={{
+              backgroundColor: "rgba(3,199,63,0.12)",
+              borderColor: "rgba(3,199,63,0.35)",
+              color: "var(--color-accent)",
+            }}
+          >
+            {finalCta.eyebrow}
+          </motion.span>
+
+          <motion.h2
+            variants={fadeUp}
+            className="font-display text-balance text-2xl font-semibold leading-[1.15] text-white sm:text-4xl md:text-5xl"
+          >
+            {finalCta.headline}
+          </motion.h2>
+
+          <motion.p
+            variants={fadeUp}
+            className="mx-auto mt-4 max-w-lg text-balance text-sm leading-relaxed text-white/70 sm:mt-5 sm:text-lg"
+          >
+            {finalCta.subheadline}
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-8 flex justify-center sm:mt-10">
+            <MagneticButton href={finalCta.ctaHref || "#contacto"}>
+              {finalCta.ctaLabel}
+              <ArrowRight size={16} />
+            </MagneticButton>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}

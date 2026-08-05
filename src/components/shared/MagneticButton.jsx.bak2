@@ -1,16 +1,8 @@
-import { useRef } from "react";
+﻿import { useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/utils/cn";
 
-export default function MagneticButton({
-  children,
-  href,
-  onClick,
-  variant = "solid",
-  magnetic = true,
-  className,
-  ariaLabel,
-}) {
+export default function MagneticButton({ children, href, onClick, variant = "solid", className, ariaLabel }) {
   const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -18,7 +10,6 @@ export default function MagneticButton({
   const springY = useSpring(y, { stiffness: 200, damping: 16, mass: 0.4 });
 
   const handleMouseMove = (e) => {
-    if (!magnetic) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -30,25 +21,15 @@ export default function MagneticButton({
 
   const handleMouseLeave = () => { x.set(0); y.set(0); };
 
-  const base =
-    "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-3 text-xs font-semibold tracking-wide transition-colors duration-300 focus-visible:outline-none sm:px-7 sm:py-3.5 sm:text-sm";
+  const base = "relative inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-colors duration-300 focus-visible:outline-none";
 
-  const styles =
-    variant === "solid"
-      ? "text-[color:var(--color-accent-ink)]"
-      : variant === "light"
-      ? "text-[color:var(--color-ink)]"
-      : "border text-[color:var(--color-ink)] hover:border-[color:var(--color-accent-dark)] hover:text-[color:var(--color-accent-dark)]";
+  const styles = variant === "solid"
+    ? "text-[color:var(--color-accent-ink)]"
+    : "border text-[color:var(--color-ink)] hover:border-[color:var(--color-accent-dark)] hover:text-[color:var(--color-accent-dark)]";
 
-  const solidStyle =
-    variant === "solid"
-      ? { backgroundColor: "var(--color-accent)" }
-      : variant === "light"
-      ? { backgroundColor: "#ffffff" }
-      : { borderColor: "var(--color-border-strong)" };
-
-  const hoverLift = magnetic ? -2 : -1;
-  const tapScale = magnetic ? 0.96 : 0.98;
+  const solidStyle = variant === "solid"
+    ? { backgroundColor: "var(--color-accent)" }
+    : { borderColor: "var(--color-border-strong)" };
 
   const content = (
     <motion.span
@@ -56,12 +37,12 @@ export default function MagneticButton({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
-      className="inline-block w-full sm:w-auto"
+      className="inline-block"
     >
       <motion.span
         style={solidStyle}
-        whileHover={{ y: hoverLift }}
-        whileTap={{ scale: tapScale }}
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.96 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
         className={cn(base, styles, className)}
       >
@@ -78,7 +59,7 @@ export default function MagneticButton({
         rel={href.startsWith("http") ? "noreferrer" : undefined}
         aria-label={ariaLabel}
         onClick={onClick}
-        className="inline-block w-full sm:w-auto"
+        className="inline-block"
       >
         {content}
       </a>
@@ -86,7 +67,7 @@ export default function MagneticButton({
   }
 
   return (
-    <button type="button" aria-label={ariaLabel} onClick={onClick} className="inline-block w-full sm:w-auto">
+    <button type="button" aria-label={ariaLabel} onClick={onClick} className="inline-block">
       {content}
     </button>
   );
