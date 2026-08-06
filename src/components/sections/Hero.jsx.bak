@@ -121,10 +121,10 @@ export default function Hero() {
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-5 flex flex-row justify-center gap-2.5 sm:mt-9 sm:gap-4">
-            <MagneticButton magnetic={false} onClick={() => scrollTo("#proyecciones")}>
+            <MagneticButton onClick={() => scrollTo("#proyecciones")}>
               {hero.primaryCTA}
             </MagneticButton>
-            <MagneticButton magnetic={false} variant="ghost" onClick={() => scrollTo("#respaldo")}>
+            <MagneticButton variant="ghost" onClick={() => scrollTo("#respaldo")}>
               {hero.secondaryCTA}
             </MagneticButton>
           </motion.div>

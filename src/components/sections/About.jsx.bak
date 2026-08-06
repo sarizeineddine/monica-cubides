@@ -4,7 +4,11 @@ import { portfolioData } from "@/data/portfolioData";
 import { fadeUp, staggerContainer, viewportOnce } from "@/animations/motionPresets";
 import SectionHeader from "@/components/shared/SectionHeader";
 
-const highlightIcons = [Calculator, Layers, ShieldCheck];
+const pillarIcons = {
+  calculator: Calculator,
+  layers: Layers,
+  "shield-check": ShieldCheck,
+};
 
 export default function About() {
   const { about } = portfolioData;
@@ -27,30 +31,46 @@ export default function About() {
           viewport={viewportOnce}
           className="mx-auto mt-5 flex max-w-sm flex-col items-center gap-2 text-center sm:mt-7 sm:max-w-none sm:flex-row sm:justify-center sm:gap-3"
         >
-          <span className="hidden h-px w-10 shrink-0 sm:block" style={{ backgroundColor: "var(--color-border-strong)" }} />
+          <span
+            className="hidden h-px w-10 shrink-0 sm:block"
+            style={{ backgroundColor: "var(--color-border-strong)" }}
+          />
           <p className="font-display text-xs font-semibold italic leading-snug tracking-wide text-[color:var(--color-accent-dark)] sm:text-sm">
             {about.signatureLine}
           </p>
-          <span className="hidden h-px w-10 shrink-0 sm:block" style={{ backgroundColor: "var(--color-border-strong)" }} />
+          <span
+            className="hidden h-px w-10 shrink-0 sm:block"
+            style={{ backgroundColor: "var(--color-border-strong)" }}
+          />
         </motion.div>
 
         <motion.div
-          variants={staggerContainer(0.1)}
+          variants={staggerContainer(0.12)}
           initial="hidden"
           whileInView="show"
           viewport={viewportOnce}
-          className="mx-auto mt-8 grid max-w-3xl grid-cols-3 gap-2 sm:mt-10 sm:gap-3"
+          className="mt-10 grid grid-cols-1 gap-5 sm:mt-14 sm:gap-6 md:grid-cols-3"
         >
-          {about.highlights.map((label, i) => {
-            const Icon = highlightIcons[i];
+          {about.pillars.map((pillar) => {
+            const Icon = pillarIcons[pillar.icon] || Calculator;
             return (
               <motion.div
-                key={label}
+                key={pillar.title}
                 variants={fadeUp}
-                className="card-panel flex flex-col items-center gap-1.5 px-2 py-3 text-center sm:flex-row sm:items-center sm:gap-3 sm:px-5 sm:py-5 sm:text-left"
+                className="card-panel-bold flex flex-col p-6 sm:p-7"
               >
-                <Icon size={16} className="shrink-0 text-[color:var(--color-accent-dark)] sm:size-[18px]" />
-                <p className="text-[10px] font-medium leading-snug text-[color:var(--color-ink)] sm:text-sm">{label}</p>
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl"
+                  style={{ backgroundColor: "var(--color-accent-tint)", border: "1px solid var(--color-border)" }}
+                >
+                  <Icon size={20} className="text-[color:var(--color-accent-dark)]" />
+                </div>
+                <h3 className="font-display mt-5 text-lg font-semibold text-[color:var(--color-ink)] sm:text-xl">
+                  {pillar.title}
+                </h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-[color:var(--color-muted)]">
+                  {pillar.description}
+                </p>
               </motion.div>
             );
           })}

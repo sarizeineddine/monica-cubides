@@ -1,4 +1,4 @@
-export const portfolioData = {
+﻿export const portfolioData = {
   identity: {
     name: "Mónica Cubides Rojas",
     role: "Experta en Planeación Financiera",
@@ -36,8 +36,8 @@ export const portfolioData = {
   about: {
     eyebrow: "Filosofía de Trabajo",
     headline: "Tu dinero, trabajando bajo un plan, no al azar.",
-    paragraphOne: "Acompaño a familias y profesionales a convertir su flujo de caja actual en un respaldo sólido para el mañana, con un plan diseñado para tu momento real, no genérico.",
-    paragraphTwo: "Diseño la estructura que permite que tu dinero trabaje para ti, bajo la seguridad de Skandia Colombia.",
+    lead: "Convierto tu flujo de caja en un respaldo sólido para el mañana, sin fórmulas genéricas.",
+    signatureLine: "10+ años ayudando a familias colombianas a decidir con claridad.",
     highlights: ["Optimización Tributaria", "Portafolios Diversificados", "Respaldo Institucional"],
   },
   wealthEngine: {
@@ -177,7 +177,6 @@ export const portfolioData = {
         quote: "Ver las proyecciones en números me hizo entender que asegurar la universidad de mi hija era viable, sin cambiar mi ritmo de vida.",
         name: "Alejandro R.",
         role: "Diseñador de Interiores y Padre",
-        // Paste a real photo URL here (see instructions). Leave null for a clean initials badge.
         photoUrl: "https://images.unsplash.com/photo-1596075780750-81249df16d19?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
