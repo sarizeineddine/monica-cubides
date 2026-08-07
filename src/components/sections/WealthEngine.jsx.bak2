@@ -14,8 +14,6 @@ export default function WealthEngine() {
   const rafRef = useRef(null);
 
   const monthlyRate = useMemo(() => Math.pow(1 + config.annualRate, 1 / 12) - 1, [config.annualRate]);
-  const noPlanAnnualRate = config.noPlanAnnualRate ?? -0.02;
-  const noPlanMonthlyRate = useMemo(() => Math.pow(1 + noPlanAnnualRate, 1 / 12) - 1, [noPlanAnnualRate]);
   const monthly = daily * 30;
   const progressPercent = ((daily - config.sliderMin) / (config.sliderMax - config.sliderMin)) * 100;
 
@@ -66,7 +64,6 @@ export default function WealthEngine() {
             <GrowthChart
               monthly={monthly}
               monthlyRate={monthlyRate}
-              noPlanMonthlyRate={noPlanMonthlyRate}
               maxMonths={120}
               domainMax={domainMax}
               withPlanLabel={config.withPlanLabel}
@@ -113,4 +110,3 @@ export default function WealthEngine() {
     </section>
   );
 }
-

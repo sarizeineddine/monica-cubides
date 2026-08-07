@@ -49,8 +49,11 @@
     sliderStep: 5000,
     sliderDefault: 30000,
     annualRate: 0.048,
+    noPlanAnnualRate: -0.02, // erosión real neta (inflación menos interés básico de ahorro)
     rateLabel: "4.8% E.A.",
-    disclaimer: "Proyección referencial calculada con interés compuesto al 4.8% E.A. No constituye una garantía de rentabilidad. Los resultados reales dependen del fondo, el plazo y las condiciones de mercado vigentes.",
+    withPlanLabel: "Con tu plan",
+    noPlanLabel: "Sin invertir",
+    disclaimer: "Proyección referencial: 4.8% E.A. compuesto vs. -2% anual por inflación al no invertir. No garantiza rentabilidad; resultados reales dependen del fondo, plazo y mercado.",
     periods: [
       { months: 60, label: "5 Años" },
       { months: 120, label: "10 Años" },
@@ -275,3 +278,5 @@
     legal: "Asesoría independiente bajo alianza comercial con Skandia Colombia. Todos los derechos reservados.",
   },
 };
+
+
