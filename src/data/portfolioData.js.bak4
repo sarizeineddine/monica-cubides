@@ -1,4 +1,4 @@
-export const portfolioData = {
+﻿export const portfolioData = {
   identity: {
     name: "Mónica Cubides Rojas",
     role: "Experta en Planeación Financiera",
@@ -36,8 +36,8 @@ export const portfolioData = {
   about: {
     eyebrow: "Filosofía de Trabajo",
     headline: "Tu dinero, trabajando bajo un plan, no al azar.",
-    paragraphOne: "Acompaño a familias y profesionales a convertir su flujo de caja actual en un respaldo sólido para el mañana, con un plan diseñado para tu momento real, no genérico.",
-    paragraphTwo: "Diseño la estructura que permite que tu dinero trabaje para ti, bajo la seguridad de Skandia Colombia.",
+    lead: "Convierto tu flujo de caja en un respaldo sólido para el mañana, sin fórmulas genéricas.",
+    signatureLine: "10+ años ayudando a familias colombianas a decidir con claridad.",
     highlights: ["Optimización Tributaria", "Portafolios Diversificados", "Respaldo Institucional"],
   },
   wealthEngine: {
@@ -49,8 +49,11 @@ export const portfolioData = {
     sliderStep: 5000,
     sliderDefault: 30000,
     annualRate: 0.048,
+    noPlanAnnualRate: -0.02, // erosión real neta (inflación menos interés básico de ahorro)
     rateLabel: "4.8% E.A.",
-    disclaimer: "Proyección referencial calculada con interés compuesto al 4.8% E.A. No constituye una garantía de rentabilidad. Los resultados reales dependen del fondo, el plazo y las condiciones de mercado vigentes.",
+    withPlanLabel: "Con tu plan",
+    noPlanLabel: "Sin invertir",
+    disclaimer: "Proyección referencial: 4.8% E.A. compuesto vs. -2% anual por inflación al no invertir. No garantiza rentabilidad; resultados reales dependen del fondo, plazo y mercado.",
     periods: [
       { months: 60, label: "5 Años" },
       { months: 120, label: "10 Años" },
@@ -177,64 +180,64 @@ export const portfolioData = {
         quote: "Ver las proyecciones en números me hizo entender que asegurar la universidad de mi hija era viable, sin cambiar mi ritmo de vida.",
         name: "Alejandro R.",
         role: "Diseñador de Interiores y Padre",
-        photoUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+        photoUrl: "https://images.unsplash.com/photo-1596075780750-81249df16d19?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         quote: "Mónica no vende un seguro: enseña a ver el dinero como una herramienta de libertad a largo plazo.",
         name: "Carolina M.",
         role: "Empresaria de Moda",
-        photoUrl: "https://randomuser.me/api/portraits/women/68.jpg",
+        photoUrl: "https://images.unsplash.com/photo-1616002411355-49593fd89721?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         quote: "Llevaba años posponiendo mi plan de pensión voluntaria. En una sola sesión entendí exactamente cuánto necesitaba ahorrar y por qué.",
         name: "Felipe Duarte",
         role: "Ingeniero de Sistemas",
-        photoUrl: "https://randomuser.me/api/portraits/men/45.jpg",
+        photoUrl: "https://plus.unsplash.com/premium_photo-1689562473471-6e736b8afe15?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         quote: "El respaldo de Skandia me dio la tranquilidad que no encontré en otras asesorías independientes. Todo quedó documentado y claro.",
         name: "Natalia Espinosa",
         role: "Gerente de Mercadeo",
-        photoUrl: "https://randomuser.me/api/portraits/women/65.jpg",
+        photoUrl: "https://images.unsplash.com/photo-1609436132311-e4b0c9370469?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         quote: "Redirigimos gastos que ni notábamos hacia una inversión real. Hoy tenemos una meta clara a 10 años y un plan que la respalda.",
         name: "Daniel Ortiz",
         role: "Odontólogo Independiente",
-        photoUrl: "https://randomuser.me/api/portraits/men/76.jpg",
+        photoUrl: "https://images.unsplash.com/photo-1713152718429-30e27fa08cf3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         quote: "Como madre soltera, la protección familiar era mi mayor preocupación. Ahora sé exactamente qué pasaría con mis hijos si algo me ocurre.",
         name: "Valentina Ríos",
         role: "Contadora Pública",
-        photoUrl: "https://randomuser.me/api/portraits/women/44.jpg",
+        photoUrl: "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
     ],
   },
   faq: {
     eyebrow: "Resolvemos tus Dudas",
     title: "Preguntas frecuentes",
-    subtitle: "Preguntas reales que otros clientes hicieron antes de decidirse.",
+    subtitle: "Respuestas rápidas antes de empezar.",
     items: [
       {
-        question: "¿Qué pasa si necesito el dinero antes de tiempo?",
-        answer: "Dependiendo del producto, existen opciones de retiro parcial o total antes del plazo original. En la sesión de diagnóstico revisamos tu necesidad real de liquidez para elegir desde el inicio el fondo con las condiciones más flexibles para tu caso, evitando sorpresas después.",
+        question: "¿Puedo retirar mi dinero antes de tiempo?",
+        answer: "Sí, muchos fondos permiten retiros parciales. Elegimos desde el inicio la opción más flexible para ti.",
       },
       {
-        question: "¿Los aportes que hago tienen beneficios tributarios?",
-        answer: "Sí, varios de los productos que manejamos —especialmente los de pensión voluntaria y ahorro de largo plazo— permiten deducir parte de tu aporte de la renta gravable, dentro de los límites que establece la ley colombiana. Revisamos tu caso puntual para maximizar ese beneficio legalmente.",
+        question: "¿Los aportes son deducibles de impuestos?",
+        answer: "En varios planes sí, dentro de los límites que establece la ley colombiana. Lo revisamos según tu caso.",
       },
       {
-        question: "¿Qué pasa si en algún mes no logro hacer el aporte?",
-        answer: "No pierdes lo acumulado. La mayoría de los fondos permiten pausar o ajustar el monto del aporte según tu flujo de caja de ese momento, sin penalizar el capital ya invertido. Lo ideal es avisarme para reacomodar la proyección y que la meta final no se vea afectada.",
+        question: "¿Qué pasa si un mes no puedo aportar?",
+        answer: "No pierdes lo ahorrado. Puedes pausar o ajustar el monto según tu flujo de caja de ese momento.",
       },
       {
-        question: "Ya tengo un seguro de vida o una pensión voluntaria con otra entidad, ¿tiene sentido hablar contigo?",
-        answer: "Sí. Muchos clientes llegan primero por una segunda opinión. Reviso tu póliza o fondo actual sin costo y te digo honestamente si está bien estructurado para tu objetivo, o si hay una alternativa que te convenga más. A veces el resultado es quedarte donde estás, y eso también te lo voy a decir.",
+        question: "Ya tengo un seguro, ¿vale la pena hablar contigo?",
+        answer: "Sí. Reviso tu plan actual sin costo y te doy una opinión honesta, aunque sea quedarte donde estás.",
       },
       {
-        question: "¿Puedo tener más de un plan activo al mismo tiempo, por ejemplo educación y pensión?",
-        answer: "Sí, y de hecho es lo más común. Muchos clientes manejan un fondo para la universidad de sus hijos y, en paralelo, un plan de pensión voluntaria o de inversión libre para su propio retiro. Cada plan se estructura y se sigue de forma independiente, con su propia meta y plazo.",
+        question: "¿Puedo tener varios planes a la vez?",
+        answer: "Claro. Es común combinar, por ejemplo, educación y pensión, cada uno con su propia meta.",
       },
     ],
   },
@@ -253,6 +256,8 @@ export const portfolioData = {
     emailLabel: "Escríbeme por Correo",
     whatsapp: "https://wa.me/573195772983",
     email: "monicacubides.seguros@gmail.com",
+    formTitle: "Cuéntame tu caso",
+    formIntro: "Completa el formulario y te contacto personalmente en menos de 24 horas.",
     form: {
       nameLabel: "Nombre completo",
       namePlaceholder: "Ej. Laura Gómez",
@@ -273,3 +278,5 @@ export const portfolioData = {
     legal: "Asesoría independiente bajo alianza comercial con Skandia Colombia. Todos los derechos reservados.",
   },
 };
+
+

@@ -1,0 +1,104 @@
+﻿import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import IndexBadge from "./IndexBadge";
+import { useAnimatedNumber } from "@/hooks/useAnimatedNumber";
+
+function parseMetric(metric) {
+  const match = String(metric).match(/^([^\d]*)(\d+(?:[.,]\d+)?)(.*)$/);
+  if (!match) return { prefix: "", value: 0, suffix: String(metric), decimals: 0 };
+  const [, prefix, numStr, suffix] = match;
+  const normalized = numStr.replace(",", ".");
+  const decimals = normalized.includes(".") ? normalized.split(".")[1].length : 0;
+  return { prefix, value: parseFloat(normalized), suffix, decimals };
+}
+
+function AnimatedMetric({ metric, active }) {
+  const { prefix, value, suffix, decimals } = parseMetric(metric);
+  const animated = useAnimatedNumber(active ? value : 0, 1400);
+  const display = decimals > 0
+    ? animated.toFixed(decimals)
+    : Math.round(animated).toLocaleString("es-CO");
+  return <>{prefix}{display}{suffix}</>;
+}
+
+export default function CaseStudyCard({ item, index }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="card-panel-bold flex h-full flex-col p-6 sm:p-8"
+    >
+      {/* Top row: index badge + category */}
+      <div className="flex items-center justify-between">
+        <IndexBadge number={String(index + 1).padStart(2, "0")} active size={36} />
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--color-accent-text)]">
+          {item.category}
+        </p>
+      </div>
+
+      {/* Headline metric — the hook */}
+      <div
+        className="mt-6 border-b pb-6 text-center"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <motion.p
+          className="font-display text-4xl font-bold currency-display sm:text-5xl"
+          initial={{ scale: 0.92, color: "#14150F" }}
+          animate={{ scale: inView ? 1 : 0.92, color: inView ? "#029934" : "#14150F" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <AnimatedMetric metric={item.metric} active={inView} />
+        </motion.p>
+        <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[color:var(--color-muted)]">
+          {item.metricLabel}
+        </p>
+      </div>
+
+      <h3 className="font-display mt-6 text-xl font-semibold text-[color:var(--color-ink)] sm:text-2xl">
+        {item.title}
+      </h3>
+
+      {/* Vertical 3-step narrative */}
+      <div className="mt-6 flex-1 space-y-5">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--color-accent-text)]">
+            01 · Contexto
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--color-muted)]">
+            {item.context}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--color-accent-text)]">
+            02 · Estrategia
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--color-muted)]">
+            {item.strategy}
+          </p>
+        </div>
+
+        <div
+          className="flex items-start gap-3 rounded-2xl border-l-2 pl-4 pr-4 py-3.5"
+          style={{ borderColor: "var(--color-accent)", backgroundColor: "var(--color-accent-tint)" }}
+        >
+          <ArrowUpRight size={17} className="mt-0.5 shrink-0 text-[color:var(--color-accent-dark)]" />
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--color-accent-text)]">
+              03 · Impacto
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-[color:var(--color-ink)] sm:text-base">
+              {item.impact}
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}

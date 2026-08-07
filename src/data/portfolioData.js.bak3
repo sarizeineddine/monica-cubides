@@ -53,7 +53,7 @@
     rateLabel: "4.8% E.A.",
     withPlanLabel: "Con tu plan",
     noPlanLabel: "Sin invertir",
-    disclaimer: "Proyección referencial. El escenario 'Con tu plan' se calcula con interés compuesto al 4.8% E.A. El escenario 'Sin invertir' refleja la pérdida de poder adquisitivo por inflación (aprox. -2% real anual) al no invertir el ahorro. No constituye una garantía de rentabilidad. Los resultados reales dependen del fondo, el plazo y las condiciones de mercado vigentes.",
+    disclaimer: "Proyección referencial: 4.8% E.A. compuesto vs. -2% anual por inflación al no invertir. No garantiza rentabilidad; resultados reales dependen del fondo, plazo y mercado.",
     periods: [
       { months: 60, label: "5 Años" },
       { months: 120, label: "10 Años" },
@@ -278,4 +278,5 @@
     legal: "Asesoría independiente bajo alianza comercial con Skandia Colombia. Todos los derechos reservados.",
   },
 };
+
 

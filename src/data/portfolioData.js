@@ -73,11 +73,7 @@
       ],
       date: "17 de Abril de 2024",
     },
-    stats: [
-      { value: "70", suffix: " Años", label: "Solidez del Grupo Skandia" },
-      { value: "SFC", suffix: "", label: "Entidad Vigilada" },
-      { value: "10+", suffix: " Años", label: "Experiencia en Consultoría" },
-    ],
+    trustLine: "Aliada de Skandia, comprometida contigo primero.",
   },
   services: {
     eyebrow: "Áreas de Trabajo",
@@ -278,5 +274,6 @@
     legal: "Asesoría independiente bajo alianza comercial con Skandia Colombia. Todos los derechos reservados.",
   },
 };
+
 
 
