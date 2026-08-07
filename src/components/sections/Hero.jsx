@@ -101,13 +101,13 @@ export default function Hero() {
           animate="show"
           className="flex min-w-0 flex-col items-center text-center"
         >
-          <motion.span variants={fadeUp} className="eyebrow-pill mb-4 sm:mb-5">
-            {hero.eyebrow}
+          <motion.span variants={fadeUp} className="eyebrow-pill mb-4 sm:mb-5 whitespace-nowrap text-xs sm:text-sm">
+            Planeación Financiera · <span className="whitespace-nowrap">Aliada Skandia</span>
           </motion.span>
 
           <motion.h1
             variants={fadeUp}
-            className="font-display text-balance max-w-2xl text-[2.5rem] font-semibold leading-[1.08] sm:text-6xl lg:text-[3.75rem]"
+            className="font-display text-balance max-w-2xl text-[2.25rem] font-semibold leading-[1.08] sm:text-6xl lg:text-[3.75rem]"
             style={{ color: "var(--color-ink)" }}
           >
             {hero.headline}

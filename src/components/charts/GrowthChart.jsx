@@ -27,8 +27,6 @@ export function futureValue(monthly, monthlyRate, months) {
   return monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
 }
 
-// Rounds a number UP to a clean "nice" ceiling (e.g. 1, 2, 5, 10 x 10^n)
-// This prevents Recharts from generating mismatched auto-ticks like "42,6 M" above "600 M".
 export function niceCeil(value) {
   if (value <= 0) return 0;
   const exponent = Math.floor(Math.log10(value));
@@ -51,7 +49,7 @@ function CustomTooltip({ active, payload, withPlanLabel, noPlanLabel }) {
 
   return (
     <div
-      className="rounded-xl border px-4 py-3 text-xs"
+      className="pointer-events-none rounded-xl border px-4 py-3 text-xs shadow-lg"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
@@ -106,7 +104,7 @@ export default function GrowthChart({
       }
     });
     return pts.sort((a, b) => a.months - b.months);
-  }, [monthly, monthlyRate, maxMonths, markers]);
+  }, [monthly, monthlyRate, maxMonths, markers, noPlanMonthlyRate]);
 
   const xTicks = useMemo(() => [0, ...markerMonths], [markerMonths]);
 
@@ -116,7 +114,6 @@ export default function GrowthChart({
     return marker ? marker.label : `${months}m`;
   };
 
-  // Clean, rounded Y-axis domain + explicit ticks (fixes the "42,6M above 600M" glitch)
   const niceMax = useMemo(() => niceCeil(domainMax), [domainMax]);
   const yTicks = useMemo(() => {
     const stepCount = 4;
@@ -130,11 +127,33 @@ export default function GrowthChart({
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="mx-auto aspect-[4/3] w-full max-w-md sm:max-w-lg"
+      className="chart-no-outline mx-auto aspect-[4/3] w-full max-w-md sm:max-w-lg select-none"
       style={{ touchAction: "pan-y" }}
     >
+      <style>{`
+        .chart-no-outline *,
+        .chart-no-outline svg,
+        .chart-no-outline path,
+        .recharts-wrapper,
+        .recharts-surface,
+        .recharts-active-dot {
+          outline: none !important;
+          -webkit-tap-highlight-color: transparent !important;
+        }
+        .chart-no-outline *:focus,
+        .chart-no-outline *:focus-visible {
+          outline: none !important;
+          box-shadow: none !important;
+        }
+      `}</style>
+
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={points} margin={{ top: 24, right: 8, left: 0, bottom: 0 }}>
+        <AreaChart
+          data={points}
+          margin={{ top: 24, right: 8, left: 0, bottom: 0 }}
+          tabIndex={-1}
+          style={{ outline: "none" }}
+        >
           <defs>
             <linearGradient id="withPlanGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--color-accent)" stopOpacity={0.32} />
@@ -169,12 +188,10 @@ export default function GrowthChart({
           />
 
           <Tooltip
+            cursor={{ stroke: "var(--color-accent-dark)", strokeWidth: 1.5, strokeDasharray: "4 4" }}
             content={<CustomTooltip withPlanLabel={withPlanLabel} noPlanLabel={noPlanLabel} />}
-            cursor={{ stroke: "var(--color-accent-dark)", strokeWidth: 1, strokeDasharray: "4 4" }}
           />
 
-          {/* Animation permanently OFF — this is a live/reactive chart, not a reveal chart.
-              Keeping animation off everywhere keeps curve + dots perfectly in sync on every update. */}
           <Area
             type="monotone"
             dataKey="noPlan"
@@ -183,7 +200,7 @@ export default function GrowthChart({
             strokeDasharray="4 3"
             fill="url(#noPlanGradient)"
             isAnimationActive={false}
-            activeDot={{ r: 5, stroke: "var(--color-surface)", strokeWidth: 2 }}
+            activeDot={{ r: 5, fill: "#6b7280", stroke: "var(--color-surface)", strokeWidth: 2 }}
           />
           <Area
             type="monotone"
@@ -192,7 +209,7 @@ export default function GrowthChart({
             strokeWidth={3}
             fill="url(#withPlanGradient)"
             isAnimationActive={false}
-            activeDot={{ r: 6, stroke: "var(--color-surface)", strokeWidth: 2 }}
+            activeDot={{ r: 6, fill: "var(--color-accent-dark)", stroke: "var(--color-surface)", strokeWidth: 2 }}
           />
 
           {markers.map((m) => {
@@ -216,4 +233,3 @@ export default function GrowthChart({
     </motion.div>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿import { portfolioData } from "@/data/portfolioData";
+import { portfolioData } from "@/data/portfolioData";
 
 export default function Footer() {
   const { identity, footer, contact } = portfolioData;
@@ -17,7 +17,7 @@ export default function Footer() {
             <p className="font-display text-lg font-semibold text-[color:var(--color-ink)]">{identity.name}</p>
             <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--color-accent-text)]">{identity.role}</p>
             <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
-              {identity.secondaryRole} – {identity.alliance}
+              {identity.secondaryRole} \u2013 {identity.alliance}
             </p>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-[color:var(--color-muted)]">{footer.text}</p>
           </div>
@@ -48,7 +48,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t pt-6 text-xs text-[color:var(--color-muted)] sm:flex-row sm:items-center sm:justify-between" style={{ borderColor: "var(--color-border)" }}>
-          <p>© {year} {identity.name}. {footer.legal}</p>
+          <p>{"\u00A9"} {year} {identity.name}. {footer.legal}</p>
         </div>
       </div>
     </footer>
